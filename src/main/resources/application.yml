@@ -1,0 +1,54 @@
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: trace
+
+management:
+  server:
+    port: 8888
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    sql-script-encoding: UTF-8
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 1000
+  jpa:
+    database: mysql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Asia/Seoul
+        globally_quoted_identifiers: false
+        dialect: org.hibernate.dialect.H2Dialect
+        cache:
+          use_query_cache: false
+          use_second_level_cache: true
+          region:
+            factory_class: org.redisson.hibernate.RedissonRegionFactory
+          redisson:
+            fallback: true
+            default:
+              eviction:
+                max_entries: 100000
+                expiration.time_to_live: 3600000
+  h2:
+    console:
+      enabled: true
